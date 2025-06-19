@@ -9,5 +9,5 @@ public class CustomerDTO {
 	private String name;
 	private String contact;
 	private String email;
-	private Integer rewardPoints;
+	private Integer totalRewardPoints;
 }
