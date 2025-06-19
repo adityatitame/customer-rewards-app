@@ -5,6 +5,6 @@ import com.infy.rewardsapp.exception.RewardsAppException;
 
 public interface TransactionService {
 	
-	public Integer addTransaction(TransactionDTO transaction) throws RewardsAppException;
+	public String addTransaction(TransactionDTO transaction) throws RewardsAppException;
 	
 }

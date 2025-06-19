@@ -7,15 +7,15 @@ CREATE TABLE customer (
     name VARCHAR(20) NOT NULL,
     email VARCHAR(50) NOT NULL,
     contact VARCHAR(15) NOT NULL,
-    total_reward_points INT DEFAULT 0
+    total_reward_points INT DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE transaction (
     transaction_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     date DATE NOT NULL,
     amount DECIMAL(10, 2) NOT NULL,
-    customer_id BIGINT,
-    reward_points INT,
+    customer_id BIGINT NOT NULL,
+    reward_points INT NOT NULL,
     CONSTRAINT fk_customer_id FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
 );
 
