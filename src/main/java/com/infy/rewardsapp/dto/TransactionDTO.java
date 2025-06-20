@@ -2,7 +2,6 @@ package com.infy.rewardsapp.dto;
 
 import java.time.LocalDate;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
