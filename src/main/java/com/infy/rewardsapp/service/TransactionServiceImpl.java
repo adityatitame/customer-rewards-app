@@ -36,8 +36,7 @@ public class TransactionServiceImpl implements TransactionService {
 	public String addTransaction(TransactionDTO transactionDTO) throws RewardsAppException {
 
 		Customer customer = customerRepository.findById(transactionDTO.getCustomerDTO().getCustomerId())
-				.orElseThrow(() -> new RewardsAppException(
-						"Customer not found with ID: " + transactionDTO.getCustomerDTO().getCustomerId()));
+				.orElseThrow(() -> new RewardsAppException("TRANSACTIONSERVICE.CUSTOMER_NOT_FOUND"));
 
 		int rewardPoints = calculateRewardPoints(transactionDTO.getAmount());
 
@@ -69,7 +68,7 @@ public class TransactionServiceImpl implements TransactionService {
 		int totalPointsForRange = 0;
 
 		Customer customer = customerRepository.findById(customerId)
-				.orElseThrow(() -> new RewardsAppException("Customer not found with ID: " + customerId));
+				.orElseThrow(() -> new RewardsAppException("TRANSACTIONSERVICE.CUSTOMER_NOT_FOUND" + customerId));
 
 		CustomerDTO customerDTO = modelMapper.map(customer, CustomerDTO.class);
 		

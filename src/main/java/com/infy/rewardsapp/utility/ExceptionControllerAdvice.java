@@ -32,7 +32,7 @@ public class ExceptionControllerAdvice {
 
         ErrorInfo errorInfo = new ErrorInfo();
         errorInfo.setErrorCode(HttpStatus.BAD_REQUEST.value());
-        errorInfo.setErrorMessage(environment.getProperty(exception.getMessage(), "Invalid request"));
+        errorInfo.setErrorMessage(environment.getProperty(exception.getMessage(), "An unexpected error occurred."));
 
         return new ResponseEntity<>(errorInfo, HttpStatus.BAD_REQUEST);
     }
@@ -71,7 +71,7 @@ public class ExceptionControllerAdvice {
 
         ErrorInfo errorInfo = new ErrorInfo();
         errorInfo.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        errorInfo.setErrorMessage(environment.getProperty("GeneralError"));
+        errorInfo.setErrorMessage(environment.getProperty("GENERAL_ERROR"));
 
         return new ResponseEntity<>(errorInfo, HttpStatus.INTERNAL_SERVER_ERROR);
     }

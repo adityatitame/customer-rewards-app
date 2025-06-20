@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,10 @@ import com.infy.rewardsapp.service.CustomerService;
 import com.infy.rewardsapp.service.TransactionService;
 import com.infy.rewardsapp.utility.RewardSummary;
 
+import jakarta.validation.Valid;
+
 @RestController
+@Validated
 @RequestMapping(value = "/rewards")
 public class RewardsAppAPI {
 	
@@ -30,13 +34,13 @@ public class RewardsAppAPI {
 	private CustomerService customerService;
 	
 	@PostMapping("/newTransaction")
-	public ResponseEntity<String> newTransaction(@RequestBody TransactionDTO transactionDto) throws RewardsAppException{
+	public ResponseEntity<String> newTransaction(@Valid @RequestBody TransactionDTO transactionDto) throws RewardsAppException{
 		String response = transactionService.addTransaction(transactionDto);
 		return new ResponseEntity<String>(response, HttpStatus.CREATED);
 	}
 	
 	@PostMapping("/register")
-	public ResponseEntity<String> registerCustomer(@RequestBody CustomerDTO customerDTO) throws RewardsAppException{
+	public ResponseEntity<String> registerCustomer(@Valid @RequestBody CustomerDTO customerDTO) throws RewardsAppException{
 		Integer id = customerService.addCustomer(customerDTO);
 		return new ResponseEntity<String>("Customer Registered Successfully with Id: "+id ,HttpStatus.CREATED);
 	}
