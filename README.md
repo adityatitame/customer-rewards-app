@@ -180,7 +180,7 @@ mvn spring-boot:run
 **Aditya Titame**  
 Full Stack SpringBoot Developer  
 [LinkedIn](https://www.linkedin.com/in/adityatitame1110)  
-Email: aditya.titame@infosys.com
+Email: aditya.titame1110@gmail.com
 
 ---
 
