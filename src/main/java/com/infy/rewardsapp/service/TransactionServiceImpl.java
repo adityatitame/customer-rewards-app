@@ -21,6 +21,13 @@ import com.infy.rewardsapp.model.TransactionDTO;
 import com.infy.rewardsapp.repository.CustomerRepository;
 import com.infy.rewardsapp.repository.TransactionRepository;
 
+/**
+ * Implementation of the {@link TransactionService} interface responsible for handling
+ * transaction-related operations and reward point calculations.
+ * 
+ * <p>This class handles adding transactions, computing reward points based on transaction
+ * amount, and generating reward summaries for customers within a specified date range.
+ */
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
@@ -32,6 +39,13 @@ public class TransactionServiceImpl implements TransactionService {
 
 	private ModelMapper modelMapper = new ModelMapper();
 
+	/**
+     * Adds a new transaction for the given customer and calculates the reward points earned.
+     *
+     * @param transactionDTO the transaction details including amount, date, and customer ID
+     * @return a success message along with the reward points earned
+     * @throws RewardsAppException if the customer is not found in the database
+     */
 	@Override
 	public String addTransaction(TransactionDTO transactionDTO) throws RewardsAppException {
 
@@ -53,7 +67,19 @@ public class TransactionServiceImpl implements TransactionService {
 
 		return "Transaction added successfully. Reward Points Earned: " + rewardPoints;
 	}
-
+	
+	/**
+     * Calculates reward points based on transaction amount.
+     * 
+     * <ul>
+     *   <li>No points for amount <= 50</li>
+     *   <li>1 point per dollar for amount between 51–100</li>
+     *   <li>2 points per dollar above 100, plus 50 points for the 51–100 range</li>
+     * </ul>
+     *
+     * @param amount the transaction amount
+     * @return reward points calculated for the amount
+     */
 	private int calculateRewardPoints(double amount) {
 		if (amount <= 50)
 			return 0;
@@ -62,6 +88,15 @@ public class TransactionServiceImpl implements TransactionService {
 		return (int) ((amount - 100) * 2 + 50);
 	}
 
+	/**
+     * Calculates the total and monthly reward points earned by a customer within the specified date range.
+     *
+     * @param customerId the ID of the customer
+     * @param startDate the beginning of the calculation period
+     * @param endDate the end of the calculation period
+     * @return a {@link RewardSummary} containing customer info and earned points
+     * @throws RewardsAppException if the customer is not found or an error occurs
+     */
 	@Override
 	public RewardSummary calculateRewardPtsForTimeFrame(Integer customerId, LocalDate startDate, LocalDate endDate)
 			throws RewardsAppException {

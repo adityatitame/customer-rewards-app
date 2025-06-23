@@ -16,6 +16,12 @@ import jakarta.validation.ConstraintViolationException;
 
 import java.util.stream.Collectors;
 
+/**
+ * Global exception handler for the RewardsApp application.
+ *
+ * <p>This class captures and handles application-specific, validation, and general exceptions
+ * and returns structured error responses to the client using {@link ErrorInfo}.
+ */
 @RestControllerAdvice
 public class ExceptionControllerAdvice {
 
@@ -24,6 +30,12 @@ public class ExceptionControllerAdvice {
     @Autowired
     private Environment environment;
 
+    /**
+     * Handles all custom {@link RewardsAppException} exceptions.
+     *
+     * @param exception the thrown RewardsAppException
+     * @return a structured error response with a mapped message and HTTP 400 status
+     */
     @ExceptionHandler(RewardsAppException.class)
     public ResponseEntity<ErrorInfo> handleNgInsuranceException(RewardsAppException exception) {
         LOGGER.error(exception.getMessage(), exception);
@@ -35,6 +47,16 @@ public class ExceptionControllerAdvice {
         return new ResponseEntity<>(errorInfo, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Handles input validation-related exceptions such as:
+     * <ul>
+     *     <li>{@link MethodArgumentNotValidException}</li>
+     *     <li>{@link ConstraintViolationException}</li>
+     * </ul>
+     *
+     * @param exception the validation exception encountered
+     * @return a structured error response containing validation messages and HTTP 400 status
+     */
     @ExceptionHandler({MethodArgumentNotValidException.class, ConstraintViolationException.class})
     public ResponseEntity<ErrorInfo> handleValidationExceptions(Exception exception) {
         LOGGER.error(exception.getMessage(), exception);
@@ -63,6 +85,12 @@ public class ExceptionControllerAdvice {
         return new ResponseEntity<>(errorInfo, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Handles any unexpected/unhandled exceptions in the application.
+     *
+     * @param exception the generic exception encountered
+     * @return a structured error response with a default error message and HTTP 500 status
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorInfo> handleGeneralException(Exception exception) {
         LOGGER.error(exception.getMessage(), exception);
