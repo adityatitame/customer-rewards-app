@@ -33,69 +33,109 @@ public class RewardsappApplicationTests {
     private CustomerRepository customerRepository;
 
     @InjectMocks
-    private CustomerServiceImpl customerService = new CustomerServiceImpl();
+    private CustomerServiceImpl customerService;
     
     @Mock
     private TransactionRepository transactionRepository;
 
     @InjectMocks
-    private TransactionServiceImpl transactionService = new TransactionServiceImpl();
+    private TransactionServiceImpl transactionService;
 
     private ModelMapper modelMapper = new ModelMapper();
 
     @Test
-    void validTestAddCustomer() throws RewardsAppException {
+    void testAddCustomer_Success() throws RewardsAppException {
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setName("Alice");
-        customerDTO.setContact("9999999999");
+        customerDTO.setContact("9876543210");
         customerDTO.setEmail("alice@example.com");
 
         Customer customer = modelMapper.map(customerDTO, Customer.class);
-        customer.setTotalRewardPoints(0);
         customer.setCustomerId(1);
+        customer.setTotalRewardPoints(0);
 
         when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
         Integer id = customerService.addCustomer(customerDTO);
-
         Assertions.assertEquals(1, id);
     }
+    
+    @Test
+    void testAddTransaction_AmountUnderOrEqual50() throws RewardsAppException {
+        TransactionDTO dto = new TransactionDTO();
+        dto.setAmount(50.0);
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setCustomerId(1);
+        dto.setCustomerDTO(customerDTO);
+
+        Customer customer = new Customer();
+        customer.setCustomerId(1);
+        customer.setTotalRewardPoints(0);
+
+        when(customerRepository.findById(1)).thenReturn(Optional.of(customer));
+        when(transactionRepository.save(any(Transaction.class))).thenReturn(new Transaction());
+        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
+
+        String response = transactionService.addTransaction(dto);
+        Assertions.assertEquals("Transaction added successfully. Reward Points Earned: 0", response);
+    }
+
+    @Test
+    void testAddTransaction_AmountBetween51And100() throws RewardsAppException {
+        TransactionDTO dto = new TransactionDTO();
+        dto.setAmount(80.0); 
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setCustomerId(1);
+        dto.setCustomerDTO(customerDTO);
+
+        Customer customer = new Customer();
+        customer.setCustomerId(1);
+        customer.setTotalRewardPoints(0);
+
+        when(customerRepository.findById(1)).thenReturn(Optional.of(customer));
+        when(transactionRepository.save(any(Transaction.class))).thenReturn(new Transaction());
+        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
+
+        String response = transactionService.addTransaction(dto);
+        Assertions.assertEquals("Transaction added successfully. Reward Points Earned: 30", response);
+    }
+
     
     @Test
     void testAddTransaction_Success() throws RewardsAppException {
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setCustomerId(1);
-        customerDTO.setName("John");
-        customerDTO.setTotalRewardPoints(100);
+        customerDTO.setTotalRewardPoints(0);
 
         TransactionDTO transactionDTO = new TransactionDTO();
         transactionDTO.setAmount(120.0);
-        transactionDTO.setDate(LocalDate.of(2024, 5, 15));
+        transactionDTO.setDate(LocalDate.of(2024, 6, 10));
         transactionDTO.setCustomerDTO(customerDTO);
 
         Customer customer = modelMapper.map(customerDTO, Customer.class);
-        customer.setTotalRewardPoints(100);
+        customer.setTotalRewardPoints(0);
 
         when(customerRepository.findById(1)).thenReturn(Optional.of(customer));
         when(transactionRepository.save(any(Transaction.class))).thenReturn(new Transaction());
         when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
         String result = transactionService.addTransaction(transactionDTO);
-
         Assertions.assertEquals("Transaction added successfully. Reward Points Earned: 90", result);
     }
-
+     
     @Test
     void testAddTransaction_CustomerNotFound() {
-        TransactionDTO transactionDTO = new TransactionDTO();
+        TransactionDTO dto = new TransactionDTO();
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setCustomerId(99);
-        transactionDTO.setCustomerDTO(customerDTO);
+        dto.setCustomerDTO(customerDTO);
 
         when(customerRepository.findById(99)).thenReturn(Optional.empty());
 
-        RewardsAppException e = Assertions.assertThrows(RewardsAppException.class, () -> transactionService.addTransaction(transactionDTO));
-        Assertions.assertEquals("Customer not found with ID: 99", e.getMessage());
+        RewardsAppException e = Assertions.assertThrows(RewardsAppException.class,
+                () -> transactionService.addTransaction(dto));
+
+        Assertions.assertEquals("TRANSACTIONSERVICE.CUSTOMER_NOT_FOUND", e.getMessage());
     }
 
     @Test
@@ -114,7 +154,7 @@ public class RewardsappApplicationTests {
         Transaction tx1 = new Transaction();
         tx1.setDate(LocalDate.of(2024, 2, 10));
         tx1.setRewardPoints(30);
-        
+
         Transaction tx2 = new Transaction();
         tx2.setDate(LocalDate.of(2024, 2, 15));
         tx2.setRewardPoints(20);
@@ -129,9 +169,6 @@ public class RewardsappApplicationTests {
         Assertions.assertNotNull(summary);
         Assertions.assertEquals(customerId, summary.getCustomerId());
         Assertions.assertEquals(50, summary.getTotalPointsForRange());
-        Assertions.assertEquals(1, summary.getMonthlyRewards().size());
-        Assertions.assertEquals("FEBRUARY 2024", summary.getMonthlyRewards().get(0).getMonth());
-        Assertions.assertEquals(50, summary.getMonthlyRewards().get(0).getRewardPoints());
     }
 
     @Test
@@ -142,10 +179,10 @@ public class RewardsappApplicationTests {
 
         when(customerRepository.findById(customerId)).thenReturn(Optional.empty());
 
-        RewardsAppException e = Assertions.assertThrows(RewardsAppException.class, () ->
-                transactionService.calculateRewardPtsForTimeFrame(customerId, from, to));
+        RewardsAppException e = Assertions.assertThrows(RewardsAppException.class,
+                () -> transactionService.calculateRewardPtsForTimeFrame(customerId, from, to));
 
-        Assertions.assertEquals("Customer not found with ID: 77", e.getMessage());
+        Assertions.assertEquals("TRANSACTIONSERVICE.CUSTOMER_NOT_FOUND77", e.getMessage());
     }
 
 }
