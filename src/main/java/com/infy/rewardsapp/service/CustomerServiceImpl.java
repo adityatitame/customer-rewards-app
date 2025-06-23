@@ -4,9 +4,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.infy.rewardsapp.dto.CustomerDTO;
-import com.infy.rewardsapp.entity.Customer;
 import com.infy.rewardsapp.exception.RewardsAppException;
+import com.infy.rewardsapp.model.Customer;
+import com.infy.rewardsapp.model.CustomerDTO;
 import com.infy.rewardsapp.repository.CustomerRepository;
 
 @Service

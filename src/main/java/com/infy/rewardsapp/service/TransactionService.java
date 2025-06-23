@@ -2,9 +2,9 @@ package com.infy.rewardsapp.service;
 
 import java.time.LocalDate;
 
-import com.infy.rewardsapp.dto.TransactionDTO;
 import com.infy.rewardsapp.exception.RewardsAppException;
-import com.infy.rewardsapp.utility.RewardSummary;
+import com.infy.rewardsapp.model.RewardSummary;
+import com.infy.rewardsapp.model.TransactionDTO;
 
 public interface TransactionService {
 	

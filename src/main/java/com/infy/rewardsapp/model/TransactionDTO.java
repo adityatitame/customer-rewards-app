@@ -1,4 +1,4 @@
-package com.infy.rewardsapp.dto;
+package com.infy.rewardsapp.model;
 
 import java.time.LocalDate;
 

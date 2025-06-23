@@ -1,4 +1,4 @@
-package com.infy.rewardsapp.utility;
+package com.infy.rewardsapp.exception;
 
 import lombok.Data;
 

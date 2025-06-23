@@ -1,4 +1,4 @@
-package com.infy.rewardsapp.entity;
+package com.infy.rewardsapp.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

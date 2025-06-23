@@ -6,16 +6,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.infy.rewardsapp.dto.CustomerDTO;
-import com.infy.rewardsapp.dto.TransactionDTO;
-import com.infy.rewardsapp.entity.Customer;
-import com.infy.rewardsapp.entity.Transaction;
 import com.infy.rewardsapp.exception.RewardsAppException;
+import com.infy.rewardsapp.model.Customer;
+import com.infy.rewardsapp.model.CustomerDTO;
+import com.infy.rewardsapp.model.RewardSummary;
+import com.infy.rewardsapp.model.Transaction;
+import com.infy.rewardsapp.model.TransactionDTO;
 import com.infy.rewardsapp.repository.CustomerRepository;
 import com.infy.rewardsapp.repository.TransactionRepository;
 import com.infy.rewardsapp.service.CustomerServiceImpl;
 import com.infy.rewardsapp.service.TransactionServiceImpl;
-import com.infy.rewardsapp.utility.RewardSummary;
 
 import org.junit.jupiter.api.Assertions;
 

@@ -1,12 +1,10 @@
-package com.infy.rewardsapp.utility;
+package com.infy.rewardsapp.exception;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
-
-import com.infy.rewardsapp.exception.RewardsAppException;
 
 @Aspect
 @Component

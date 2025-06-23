@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.infy.rewardsapp.entity.Transaction;
+import com.infy.rewardsapp.model.Transaction;
 
 public interface TransactionRepository extends CrudRepository<Transaction, Integer> {
 	

@@ -11,15 +11,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.infy.rewardsapp.dto.CustomerDTO;
-import com.infy.rewardsapp.dto.TransactionDTO;
-import com.infy.rewardsapp.entity.Customer;
-import com.infy.rewardsapp.entity.Transaction;
 import com.infy.rewardsapp.exception.RewardsAppException;
+import com.infy.rewardsapp.model.Customer;
+import com.infy.rewardsapp.model.CustomerDTO;
+import com.infy.rewardsapp.model.MonthlyReward;
+import com.infy.rewardsapp.model.RewardSummary;
+import com.infy.rewardsapp.model.Transaction;
+import com.infy.rewardsapp.model.TransactionDTO;
 import com.infy.rewardsapp.repository.CustomerRepository;
 import com.infy.rewardsapp.repository.TransactionRepository;
-import com.infy.rewardsapp.utility.MonthlyReward;
-import com.infy.rewardsapp.utility.RewardSummary;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {

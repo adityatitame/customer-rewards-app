@@ -1,9 +1,7 @@
-package com.infy.rewardsapp.utility;
+package com.infy.rewardsapp.model;
 
 import java.time.LocalDate;
 import java.util.List;
-
-import com.infy.rewardsapp.dto.CustomerDTO;
 
 import lombok.Data;
 
