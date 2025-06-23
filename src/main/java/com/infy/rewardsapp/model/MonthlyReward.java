@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class MonthlyReward {
     private String month;
+    private Integer year;
     private Integer rewardPoints;
 }
 

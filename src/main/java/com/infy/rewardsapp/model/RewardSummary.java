@@ -7,9 +7,13 @@ import lombok.Data;
 
 @Data
 public class RewardSummary {
-	private CustomerDTO customerDTO;
-	private LocalDate from;
-	private LocalDate to;
+	private Integer customerId;
+	private String name;
+	private String contact;
+	private String email;
+	private Integer totalRewardPoints;
+	private LocalDate startDate;
+	private LocalDate endDate;
 	private List<MonthlyReward> monthlyRewards;
 	private Integer totalPointsForRange;
 }

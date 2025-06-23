@@ -127,7 +127,7 @@ public class RewardsappApplicationTests {
         RewardSummary summary = transactionService.calculateRewardPtsForTimeFrame(customerId, from, to);
 
         Assertions.assertNotNull(summary);
-        Assertions.assertEquals(customerId, summary.getCustomerDTO().getCustomerId());
+        Assertions.assertEquals(customerId, summary.getCustomerId());
         Assertions.assertEquals(50, summary.getTotalPointsForRange());
         Assertions.assertEquals(1, summary.getMonthlyRewards().size());
         Assertions.assertEquals("FEBRUARY 2024", summary.getMonthlyRewards().get(0).getMonth());

@@ -63,7 +63,7 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public RewardSummary calculateRewardPtsForTimeFrame(Integer customerId, LocalDate from, LocalDate to)
+	public RewardSummary calculateRewardPtsForTimeFrame(Integer customerId, LocalDate startDate, LocalDate endDate)
 			throws RewardsAppException {
 		int totalPointsForRange = 0;
 
@@ -72,8 +72,8 @@ public class TransactionServiceImpl implements TransactionService {
 
 		CustomerDTO customerDTO = modelMapper.map(customer, CustomerDTO.class);
 		
-		List<Transaction> transactions = transactionRepository.findByCustomerCustomerIdAndDateBetween(customerId, from,
-				to);
+		List<Transaction> transactions = transactionRepository.findByCustomerCustomerIdAndDateBetween(customerId, startDate,
+				endDate);
 
 		Map<YearMonth, Integer> monthlyPoints = new HashMap<>();
 
@@ -89,8 +89,8 @@ public class TransactionServiceImpl implements TransactionService {
 		monthlyPoints.forEach((yearMonth, points) -> {
 			MonthlyReward reward = new MonthlyReward();
 
-			String month = yearMonth.getMonth().toString();
-			reward.setMonth(month + " " + yearMonth.getYear());
+			reward.setMonth(yearMonth.getMonth().toString());
+			reward.setYear(yearMonth.getYear());
 			reward.setRewardPoints(points);
 
 			monthlyRewards.add(reward);
@@ -101,9 +101,13 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 		
 		RewardSummary summary = new RewardSummary();
-	    summary.setCustomerDTO(customerDTO);
-		summary.setFrom(from);
-		summary.setTo(to);
+	    summary.setCustomerId(customerDTO.getCustomerId());
+	    summary.setName(customerDTO.getName());
+	    summary.setContact(customerDTO.getContact());
+	    summary.setEmail(customerDTO.getEmail());
+	    summary.setTotalRewardPoints(customerDTO.getTotalRewardPoints());
+		summary.setStartDate(startDate);
+		summary.setEndDate(endDate);
 		summary.setMonthlyRewards(monthlyRewards);
 		summary.setTotalPointsForRange(totalPointsForRange);
 		
