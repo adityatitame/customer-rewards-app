@@ -8,8 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -81,6 +83,48 @@ public class ExceptionControllerAdvice {
         ErrorInfo errorInfo = new ErrorInfo();
         errorInfo.setErrorCode(HttpStatus.BAD_REQUEST.value());
         errorInfo.setErrorMessage(errorMsg);
+
+        return new ResponseEntity<>(errorInfo, HttpStatus.BAD_REQUEST);
+    }
+    
+    /**
+     * Handles missing required request parameters in HTTP GET or POST requests.
+     *
+     * <p>This method catches {@link MissingServletRequestParameterException} when a required
+     * query or form parameter is not present in the request. It returns a descriptive
+     * error message indicating the missing parameter.
+     *
+     * @param ex the exception thrown when a required parameter is missing
+     * @return a {@link ResponseEntity} with an {@link ErrorInfo} object and HTTP 400 (Bad Request)
+     */
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ErrorInfo> handleMissingParams(MissingServletRequestParameterException ex) {
+        LOGGER.error("Missing request parameter", ex);
+
+        ErrorInfo errorInfo = new ErrorInfo();
+        errorInfo.setErrorCode(HttpStatus.BAD_REQUEST.value());
+        errorInfo.setErrorMessage("Missing required request parameter: " + ex.getParameterName());
+
+        return new ResponseEntity<>(errorInfo, HttpStatus.BAD_REQUEST);
+    }
+    
+    /**
+     * Handles type mismatch errors when request parameters cannot be converted to the expected type.
+     *
+     * <p>This method handles {@link MethodArgumentTypeMismatchException} which occurs
+     * when, for example, a string is passed instead of an integer or date.
+     * It returns a friendly message indicating which parameter was incorrectly formatted.
+     *
+     * @param ex the exception thrown due to parameter type mismatch
+     * @return a {@link ResponseEntity} with an {@link ErrorInfo} object and HTTP 400 (Bad Request)
+     */
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorInfo> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        LOGGER.error("Type mismatch error", ex);
+
+        ErrorInfo errorInfo = new ErrorInfo();
+        errorInfo.setErrorCode(HttpStatus.BAD_REQUEST.value());
+        errorInfo.setErrorMessage("Invalid input for parameter: " + ex.getName());
 
         return new ResponseEntity<>(errorInfo, HttpStatus.BAD_REQUEST);
     }

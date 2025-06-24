@@ -50,7 +50,7 @@ public class RewardControllerTest {
     @Test
     void testAddCustomer_Invalid() throws RewardsAppException {
         CustomerDTO dto = new CustomerDTO();
-        dto.setName("Invalid"); // basic input, validation handled by framework
+        dto.setName("Invalid");
         dto.setContact("1234567890");
         dto.setEmail("invalid@example.com");
 

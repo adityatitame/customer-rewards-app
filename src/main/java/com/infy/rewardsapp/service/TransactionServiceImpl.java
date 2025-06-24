@@ -98,8 +98,12 @@ public class TransactionServiceImpl implements TransactionService {
      * @throws RewardsAppException if the customer is not found or an error occurs
      */
 	@Override
-	public RewardSummary calculateRewardPtsForTimeFrame(Integer customerId, LocalDate startDate, LocalDate endDate)
-			throws RewardsAppException {
+	public RewardSummary calculateRewardPtsForTimeFrame(Integer customerId, LocalDate startDate, LocalDate endDate) throws RewardsAppException {
+		
+		if (startDate.isAfter(endDate)) {
+	        throw new RewardsAppException("TRANSACTIONSERVICE.INVALID_DATE_RANGE");
+	    }
+		
 		int totalPointsForRange = 0;
 
 		Customer customer = customerRepository.findById(customerId)
@@ -107,8 +111,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 		CustomerDTO customerDTO = modelMapper.map(customer, CustomerDTO.class);
 		
-		List<Transaction> transactions = transactionRepository.findByCustomerCustomerIdAndDateBetween(customerId, startDate,
-				endDate);
+		List<Transaction> transactions = transactionRepository.findByCustomerCustomerIdAndDateBetween(customerId, startDate, endDate);
 
 		Map<YearMonth, Integer> monthlyPoints = new HashMap<>();
 
