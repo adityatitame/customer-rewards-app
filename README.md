@@ -1,34 +1,52 @@
-🏆 Customer Rewards App
-A Spring Boot REST API that calculates customer reward points based on transaction history. Customers earn points on purchases above $50, with higher rewards beyond $100. The API supports dynamic reward summaries for any date range.
+# 🏆 Customer Rewards App
 
-🚀 Features
-✅ Add new customers and transactions
-✅ Automatically calculate and persist reward points
-✅ View reward points per transaction
-✅ Generate reward summary by month and total within a date range
-✅ Filter data dynamically via request parameters
-✅ Clean layered architecture with full Javadoc and unit tests
-🧮 Reward Calculation Logic
-🟢 1 point for every $1 spent over $50 up to $100
-🟢 2 points for every $1 spent over $100
-💡 Example:
-A transaction of $120 earns:
+A Spring Boot REST API that calculates **customer reward points** based on transaction history. Customers earn points on purchases above $50, with higher rewards beyond $100. The API supports dynamic reward summaries for any date range.
 
-(120 - 100) × 2 = 40
-(100 - 50) × 1 = 50
-→ Total = 90 points
-🛠 Tech Stack
-Layer	Technology
-Language	Java 17
-Framework	Spring Boot
-Database	MySQL / H2
-ORM	Spring Data JPA
-Mapping	ModelMapper
-Logging	Log4j2
-Testing	JUnit 5 + Mockito
-Build Tool	Maven
-Client Tool	Postman
-📁 Project Structure
+---
+
+## 🚀 Features
+
+- ✅ Add new customers and transactions
+- ✅ Automatically calculate and persist reward points
+- ✅ View reward points per transaction
+- ✅ Generate reward summary by month and total within a date range
+- ✅ Filter data dynamically via request parameters
+- ✅ Clean layered architecture with full Javadoc and unit tests
+
+---
+
+## 🧮 Reward Calculation Logic
+
+- 🟢 1 point for every $1 spent **over $50 up to $100**
+- 🟢 2 points for every $1 spent **over $100**
+
+> 💡 Example:  
+> A transaction of **$120** earns:  
+> - (120 - 100) × 2 = 40  
+> - (100 - 50) × 1 = 50  
+> → **Total = 90 points**
+
+---
+
+## 🛠 Tech Stack
+
+| Layer       | Technology          |
+|-------------|---------------------|
+| Language    | Java 17             |
+| Framework   | Spring Boot         |
+| Database    | MySQL / H2          |
+| ORM         | Spring Data JPA     |
+| Mapping     | ModelMapper         |
+| Logging     | Log4j2              |
+| Testing     | JUnit 5 + Mockito   |
+| Build Tool  | Maven               |
+| Client Tool | Postman             |
+
+---
+
+## 📁 Project Structure
+
+```
 src/
  └── main/
      ├── java/com/infy/rewardsapp
@@ -45,30 +63,50 @@ src/
          ├── ValidationMessages.properties
 README.md
 pom.xml
-📡 API Endpoints
-➕ Add a Customer
-POST /rewards/addCustomer
-Request:
+```
 
+---
+
+## 📡 API Endpoints
+
+### ➕ Add a Customer
+```
+POST /rewards/addCustomer
+```
+**Request:**
+```json
 {
   "name": "Amit Patil",
   "email": "amit@example.com",
   "contact": "9876543210"
 }
-➕ Add a Transaction
-POST /rewards/addTransaction
-Request:
+```
 
+---
+
+### ➕ Add a Transaction
+```
+POST /rewards/addTransaction
+```
+**Request:**
+```json
 {
   "amount": 120.0,
+  "date": "2025-06-10",
   "customerDTO": {
     "customerId": 1
   }
 }
-📊 Get Reward Summary for a Date Range
-GET /rewards/rewardSummary?customerId=1&startDate=2025-04-01&endDate=2025-06-30
-Response:
+```
 
+---
+
+### 📊 Get Reward Summary for a Date Range
+```
+GET /rewards/rewardSummary?customerId=1&startDate=2025-04-01&endDate=2025-06-30
+```
+**Response:**
+```json
 {
   "customerId": 1,
   "name": "Amit Patil",
@@ -91,28 +129,54 @@ Response:
   ],
   "totalPointsForRange": 150
 }
-🧪 Testing
-Unit tests using JUnit 5 and Mockito
-100% test coverage for service and controller layers
-Test cases for:
-Valid and invalid customer/transaction inputs
-Reward calculation logic
-API responses and exceptions
-To run tests:
+```
 
+---
+
+## 🧪 Testing
+
+- Unit tests using **JUnit 5** and **Mockito**
+- 100% test coverage for service and controller layers
+- Test cases for:
+  - Valid and invalid customer/transaction inputs
+  - Reward calculation logic
+  - API responses and exceptions
+
+To run tests:
+```bash
 mvn test
-🏁 Getting Started
-Clone the repository
+```
+
+---
+
+## 🏁 Getting Started
+
+1. **Clone the repository**
+```bash
 git clone https://github.com/adityatitame/customer-rewards-app.git
 cd customer-rewards-app
-Configure your database in src/main/resources/application.properties:
+```
+
+2. **Configure your database** in `src/main/resources/application.properties`:
+```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/rewards_app_db
 spring.datasource.username=root
 spring.datasource.password=yourpassword
-Run the application
+spring.jpa.hibernate.ddl-auto=update
+```
+
+3. **Run the application**
+```bash
 mvn spring-boot:run
-👨‍💻 Author
-Aditya Titame
-Java | Spring Boot | Full Stack Developer
-📧 adityatitame1110@gmail.com
-🔗 LinkedIn
+```
+
+---
+
+## 👨‍💻 Author
+
+**Aditya Titame**  
+Java | Spring Boot | Full Stack Developer  
+📧 adityatitame1110@gmail.com  
+🔗 [LinkedIn](https://www.linkedin.com/in/adityatitame1110)
+
+---
