@@ -23,103 +23,97 @@ import com.infy.rewardsapp.service.TransactionService;
 @SpringBootTest
 public class RewardControllerTest {
 
-    @Mock
-    private TransactionService transactionService;
+	@Mock
+	private TransactionService transactionService;
 
-    @Mock
-    private CustomerService customerService;
+	@Mock
+	private CustomerService customerService;
 
-    @InjectMocks
-    private RewardController rewardController;
+	@InjectMocks
+	private RewardController rewardController;
 
-    @Test
-    void testAddCustomer_Valid() throws RewardsAppException {
-        CustomerDTO dto = new CustomerDTO();
-        dto.setName("Test User");
-        dto.setContact("9876543210");
-        dto.setEmail("test@example.com");
+	@Test
+	void testAddCustomer_Valid() throws RewardsAppException {
+		CustomerDTO dto = new CustomerDTO();
+		dto.setName("Test User");
+		dto.setContact("9876543210");
+		dto.setEmail("test@example.com");
 
-        when(customerService.addCustomer(dto)).thenReturn(101);
+		when(customerService.addCustomer(dto)).thenReturn(101);
 
-        ResponseEntity<String> response = rewardController.addCustomer(dto);
+		ResponseEntity<String> response = rewardController.addCustomer(dto);
 
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("Customer Registered Successfully with Id: 101", response.getBody());
-    }
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		assertEquals("Customer Registered Successfully with Id: 101", response.getBody());
+	}
 
-    @Test
-    void testAddCustomer_Invalid() throws RewardsAppException {
-        CustomerDTO dto = new CustomerDTO();
-        dto.setName("Invalid");
-        dto.setContact("1234567890");
-        dto.setEmail("invalid@example.com");
+	@Test
+	void testAddCustomer_Invalid() throws RewardsAppException {
+		CustomerDTO dto = new CustomerDTO();
+		dto.setName("Invalid");
+		dto.setContact("1234567890");
+		dto.setEmail("invalid@example.com");
 
-        when(customerService.addCustomer(dto))
-                .thenThrow(new RewardsAppException("CUSTOMERSERVICE.CUSTOMER_REGISTRATION_FAILED"));
+		when(customerService.addCustomer(dto)).thenThrow(new RewardsAppException("CUSTOMERSERVICE.CUSTOMER_REGISTRATION_FAILED"));
 
-        RewardsAppException exception = assertThrows(RewardsAppException.class,
-                () -> rewardController.addCustomer(dto));
+		RewardsAppException exception = assertThrows(RewardsAppException.class,() -> rewardController.addCustomer(dto));
 
-        assertEquals("CUSTOMERSERVICE.CUSTOMER_REGISTRATION_FAILED", exception.getMessage());
-    }
-    
-    @Test
-    void testAddTransaction_Valid() throws RewardsAppException {
-        TransactionDTO dto = new TransactionDTO();
-        dto.setAmount(120.0);
+		assertEquals("CUSTOMERSERVICE.CUSTOMER_REGISTRATION_FAILED", exception.getMessage());
+	}
 
-        when(transactionService.addTransaction(dto)).thenReturn("Transaction added successfully. Reward Points Earned: 90");
+	@Test
+	void testAddTransaction_Valid() throws RewardsAppException {
+		TransactionDTO dto = new TransactionDTO();
+		dto.setAmount(120.0);
 
-        ResponseEntity<String> response = rewardController.addTransaction(dto);
+		when(transactionService.addTransaction(dto)).thenReturn("Transaction added successfully. Reward Points Earned: 90");
 
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("Transaction added successfully. Reward Points Earned: 90", response.getBody());
-    }
-    
-    @Test
-    void testAddTransaction_Invalid() throws RewardsAppException {
-        TransactionDTO dto = new TransactionDTO();
-        dto.setAmount(150.0);
+		ResponseEntity<String> response = rewardController.addTransaction(dto);
 
-        when(transactionService.addTransaction(dto))
-                .thenThrow(new RewardsAppException("TRANSACTIONSERVICE.INVALID_CUSTOMER"));
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		assertEquals("Transaction added successfully. Reward Points Earned: 90", response.getBody());
+	}
 
-        RewardsAppException exception = assertThrows(RewardsAppException.class,
-                () -> rewardController.addTransaction(dto));
+	@Test
+	void testAddTransaction_Invalid() throws RewardsAppException {
+		TransactionDTO dto = new TransactionDTO();
+		dto.setAmount(150.0);
 
-        assertEquals("TRANSACTIONSERVICE.INVALID_CUSTOMER", exception.getMessage());
-    }
+		when(transactionService.addTransaction(dto)).thenThrow(new RewardsAppException("TRANSACTIONSERVICE.INVALID_CUSTOMER"));
 
-    @Test
-    void testGetRewardSummary_Valid() throws RewardsAppException {
-        Integer customerId = 1;
-        LocalDate startDate = LocalDate.of(2024, 1, 1);
-        LocalDate endDate = LocalDate.of(2024, 12, 31);
+		RewardsAppException exception = assertThrows(RewardsAppException.class,() -> rewardController.addTransaction(dto));
 
-        RewardSummary mockSummary = new RewardSummary();
-        mockSummary.setCustomerId(customerId);
-        mockSummary.setTotalPointsForRange(150);
+		assertEquals("TRANSACTIONSERVICE.INVALID_CUSTOMER", exception.getMessage());
+	}
 
-        when(transactionService.calculateRewardPtsForTimeFrame(customerId, startDate, endDate)).thenReturn(mockSummary);
+	@Test
+	void testGetRewardSummary_Valid() throws RewardsAppException {
+		Integer customerId = 1;
+		LocalDate startDate = LocalDate.of(2024, 1, 1);
+		LocalDate endDate = LocalDate.of(2024, 12, 31);
 
-        ResponseEntity<RewardSummary> response = rewardController.getRewardSummary(customerId, startDate, endDate);
+		RewardSummary mockSummary = new RewardSummary();
+		mockSummary.setCustomerId(customerId);
+		mockSummary.setTotalPointsForRange(150);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(mockSummary, response.getBody());
-    }
-    
-    @Test
-    void testGetRewardSummary_Invalid() throws RewardsAppException {
-        Integer customerId = 99;
-        LocalDate from = LocalDate.of(2024, 1, 1);
-        LocalDate to = LocalDate.of(2024, 12, 31);
+		when(transactionService.calculateRewardPtsForTimeFrame(customerId, startDate, endDate)).thenReturn(mockSummary);
 
-        when(transactionService.calculateRewardPtsForTimeFrame(customerId, from, to))
-                .thenThrow(new RewardsAppException("TRANSACTIONSERVICE.CUSTOMER_NOT_FOUND"));
+		ResponseEntity<RewardSummary> response = rewardController.getRewardSummary(customerId, startDate, endDate);
 
-        RewardsAppException exception = assertThrows(RewardsAppException.class,
-                () -> rewardController.getRewardSummary(customerId, from, to));
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(mockSummary, response.getBody());
+	}
 
-        assertEquals("TRANSACTIONSERVICE.CUSTOMER_NOT_FOUND", exception.getMessage());
-    }
+	@Test
+	void testGetRewardSummary_Invalid() throws RewardsAppException {
+		Integer customerId = 99;
+		LocalDate from = LocalDate.of(2024, 1, 1);
+		LocalDate to = LocalDate.of(2024, 12, 31);
+
+		when(transactionService.calculateRewardPtsForTimeFrame(customerId, from, to)).thenThrow(new RewardsAppException("TRANSACTIONSERVICE.CUSTOMER_NOT_FOUND"));
+
+		RewardsAppException exception = assertThrows(RewardsAppException.class,() -> rewardController.getRewardSummary(customerId, from, to));
+
+		assertEquals("TRANSACTIONSERVICE.CUSTOMER_NOT_FOUND", exception.getMessage());
+	}
 }

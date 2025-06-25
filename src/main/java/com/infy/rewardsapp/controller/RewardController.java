@@ -49,7 +49,8 @@ public class RewardController {
 	 * @throws RewardsAppException if transaction processing fails
 	 */
 	@PostMapping("/addTransaction")
-	public ResponseEntity<String> addTransaction(@Valid @RequestBody TransactionDTO transactionDTO) throws RewardsAppException {
+	public ResponseEntity<String> addTransaction(@Valid @RequestBody TransactionDTO transactionDTO)
+			throws RewardsAppException {
 		String response = transactionService.addTransaction(transactionDTO);
 		return new ResponseEntity<String>(response, HttpStatus.CREATED);
 	}
@@ -79,7 +80,7 @@ public class RewardController {
 	 * @throws RewardsAppException if summary retrieval fails or inputs are invalid
 	 */
 	@GetMapping("/rewardSummary")
-	public ResponseEntity<RewardSummary> getRewardSummary(@RequestParam Integer customerId,@RequestParam LocalDate startDate, @RequestParam LocalDate endDate) throws RewardsAppException {
+	public ResponseEntity<RewardSummary> getRewardSummary(@RequestParam Integer customerId, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) throws RewardsAppException {
 		RewardSummary summary = transactionService.calculateRewardPtsForTimeFrame(customerId, startDate, endDate);
 		return new ResponseEntity<RewardSummary>(summary, HttpStatus.OK);
 	}

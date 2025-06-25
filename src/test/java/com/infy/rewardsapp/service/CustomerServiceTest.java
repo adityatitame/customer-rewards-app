@@ -17,29 +17,29 @@ import com.infy.rewardsapp.repository.CustomerRepository;
 
 @SpringBootTest
 public class CustomerServiceTest {
-	
-	@Mock
-    private CustomerRepository customerRepository;
 
-    @InjectMocks
-    private CustomerServiceImpl customerService;
+	@Mock
+	private CustomerRepository customerRepository;
+
+	@InjectMocks
+	private CustomerServiceImpl customerService;
 
 	private ModelMapper modelMapper = new ModelMapper();
-	
-    @Test
-    void testAddCustomer_Success() throws RewardsAppException {
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setName("Alice");
-        customerDTO.setContact("9876543210");
-        customerDTO.setEmail("alice@example.com");
 
-        Customer customer = modelMapper.map(customerDTO, Customer.class);
-        customer.setCustomerId(1);
-        customer.setTotalRewardPoints(0);
+	@Test
+	void testAddCustomer_Success() throws RewardsAppException {
+		CustomerDTO customerDTO = new CustomerDTO();
+		customerDTO.setName("Alice");
+		customerDTO.setContact("9876543210");
+		customerDTO.setEmail("alice@example.com");
 
-        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
+		Customer customer = modelMapper.map(customerDTO, Customer.class);
+		customer.setCustomerId(1);
+		customer.setTotalRewardPoints(0);
 
-        Integer id = customerService.addCustomer(customerDTO);
-        Assertions.assertEquals(1, id);
-    }
+		when(customerRepository.save(any(Customer.class))).thenReturn(customer);
+
+		Integer id = customerService.addCustomer(customerDTO);
+		Assertions.assertEquals(1, id);
+	}
 }
