@@ -22,7 +22,7 @@ public interface TransactionService {
 	 * @return a confirmation message upon successful transaction recording
 	 * @throws RewardsAppException if transaction processing fails
 	 */
-	public String addTransaction(TransactionDTO transaction) throws RewardsAppException;
+	public String addTransaction(TransactionDTO transaction, Integer customerId) throws RewardsAppException;
 
 	/**
 	 * Calculates the total and monthly reward points for a customer within a

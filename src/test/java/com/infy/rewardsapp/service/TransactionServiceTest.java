@@ -57,7 +57,7 @@ public class TransactionServiceTest {
 		when(transactionRepository.save(any(Transaction.class))).thenReturn(new Transaction());
 		when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
-		String response = transactionService.addTransaction(dto);
+		String response = transactionService.addTransaction(dto,1);
 		Assertions.assertEquals("Transaction added successfully. Reward Points Earned: 0", response);
 	}
 
@@ -77,7 +77,7 @@ public class TransactionServiceTest {
 		when(transactionRepository.save(any(Transaction.class))).thenReturn(new Transaction());
 		when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
-		String response = transactionService.addTransaction(dto);
+		String response = transactionService.addTransaction(dto,1);
 		Assertions.assertEquals("Transaction added successfully. Reward Points Earned: 30", response);
 	}
 
@@ -99,7 +99,7 @@ public class TransactionServiceTest {
 		when(transactionRepository.save(any(Transaction.class))).thenReturn(new Transaction());
 		when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
-		String result = transactionService.addTransaction(transactionDTO);
+		String result = transactionService.addTransaction(transactionDTO,1);
 		Assertions.assertEquals("Transaction added successfully. Reward Points Earned: 90", result);
 	}
 
@@ -112,7 +112,7 @@ public class TransactionServiceTest {
 
 		when(customerRepository.findById(99)).thenReturn(Optional.empty());
 
-		RewardsAppException e = Assertions.assertThrows(RewardsAppException.class,() -> transactionService.addTransaction(dto));
+		RewardsAppException e = Assertions.assertThrows(RewardsAppException.class,() -> transactionService.addTransaction(dto,1));
 
 		Assertions.assertEquals("TRANSACTIONSERVICE.CUSTOMER_NOT_FOUND", e.getMessage());
 	}

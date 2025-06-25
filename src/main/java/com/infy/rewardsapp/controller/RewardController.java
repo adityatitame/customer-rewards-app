@@ -49,9 +49,9 @@ public class RewardController {
 	 * @throws RewardsAppException if transaction processing fails
 	 */
 	@PostMapping("/addTransaction")
-	public ResponseEntity<String> addTransaction(@Valid @RequestBody TransactionDTO transactionDTO)
+	public ResponseEntity<String> addTransaction(@Valid @RequestBody TransactionDTO transactionDTO, @RequestParam Integer customerId)
 			throws RewardsAppException {
-		String response = transactionService.addTransaction(transactionDTO);
+		String response = transactionService.addTransaction(transactionDTO,customerId);
 		return new ResponseEntity<String>(response, HttpStatus.CREATED);
 	}
 

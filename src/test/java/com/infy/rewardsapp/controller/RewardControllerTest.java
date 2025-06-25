@@ -66,9 +66,9 @@ public class RewardControllerTest {
 		TransactionDTO dto = new TransactionDTO();
 		dto.setAmount(120.0);
 
-		when(transactionService.addTransaction(dto)).thenReturn("Transaction added successfully. Reward Points Earned: 90");
+		when(transactionService.addTransaction(dto,1)).thenReturn("Transaction added successfully. Reward Points Earned: 90");
 
-		ResponseEntity<String> response = rewardController.addTransaction(dto);
+		ResponseEntity<String> response = rewardController.addTransaction(dto,1);
 
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		assertEquals("Transaction added successfully. Reward Points Earned: 90", response.getBody());
@@ -79,9 +79,9 @@ public class RewardControllerTest {
 		TransactionDTO dto = new TransactionDTO();
 		dto.setAmount(150.0);
 
-		when(transactionService.addTransaction(dto)).thenThrow(new RewardsAppException("TRANSACTIONSERVICE.INVALID_CUSTOMER"));
+		when(transactionService.addTransaction(dto,1)).thenThrow(new RewardsAppException("TRANSACTIONSERVICE.INVALID_CUSTOMER"));
 
-		RewardsAppException exception = assertThrows(RewardsAppException.class,() -> rewardController.addTransaction(dto));
+		RewardsAppException exception = assertThrows(RewardsAppException.class,() -> rewardController.addTransaction(dto,1));
 
 		assertEquals("TRANSACTIONSERVICE.INVALID_CUSTOMER", exception.getMessage());
 	}

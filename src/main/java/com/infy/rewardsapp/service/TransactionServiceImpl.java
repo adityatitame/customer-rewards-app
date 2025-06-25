@@ -51,9 +51,9 @@ public class TransactionServiceImpl implements TransactionService {
 	 * @throws RewardsAppException if the customer is not found in the database
 	 */
 	@Override
-	public String addTransaction(TransactionDTO transactionDTO) throws RewardsAppException {
+	public String addTransaction(TransactionDTO transactionDTO, Integer customerId) throws RewardsAppException {
 
-		Customer customer = customerRepository.findById(transactionDTO.getCustomerDTO().getCustomerId())
+		Customer customer = customerRepository.findById(customerId)
 											  .orElseThrow(() -> new RewardsAppException("TRANSACTIONSERVICE.CUSTOMER_NOT_FOUND"));
 
 		if (transactionDTO.getDate() != null && transactionDTO.getDate().isAfter(LocalDate.now())) {
