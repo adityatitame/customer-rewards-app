@@ -52,6 +52,11 @@ public class TransactionServiceImpl implements TransactionService {
 		Customer customer = customerRepository.findById(transactionDTO.getCustomerDTO().getCustomerId())
 				.orElseThrow(() -> new RewardsAppException("TRANSACTIONSERVICE.CUSTOMER_NOT_FOUND"));
 
+		if(transactionDTO.getDate() != null && transactionDTO.getDate().isAfter(LocalDate.now()))
+		{
+			throw new RewardsAppException("TRANSACTIONSERVICE.INVALID_DATE");
+		}
+		
 		int rewardPoints = calculateRewardPoints(transactionDTO.getAmount());
 
 		Transaction transaction = new Transaction();
