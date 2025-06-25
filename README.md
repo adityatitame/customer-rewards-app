@@ -81,22 +81,26 @@ POST /rewards/addCustomer
   "contact": "9876543210"
 }
 ```
-
+**Response:**
+```text
+Customer Registered Successfully with Id: 6
+```
 ---
 
 ### ➕ Add a Transaction
 ```
-POST /rewards/addTransaction
+POST /rewards/addTransaction?customerId=1
 ```
 **Request:**
 ```json
 {
   "amount": 120.0,
-  "date": "2025-06-10",
-  "customerDTO": {
-    "customerId": 1
-  }
+  "date": "2025-06-10"
 }
+```
+**Response:**
+```text
+Transaction added successfully. Reward Points Earned: 90
 ```
 
 ---
