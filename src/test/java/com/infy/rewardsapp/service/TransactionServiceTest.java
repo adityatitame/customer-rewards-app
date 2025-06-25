@@ -1,9 +1,18 @@
-package com.infy.rewardsapp;
+package com.infy.rewardsapp.service;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.infy.rewardsapp.exception.RewardsAppException;
@@ -14,20 +23,9 @@ import com.infy.rewardsapp.model.Transaction;
 import com.infy.rewardsapp.model.TransactionDTO;
 import com.infy.rewardsapp.repository.CustomerRepository;
 import com.infy.rewardsapp.repository.TransactionRepository;
-import com.infy.rewardsapp.service.CustomerServiceImpl;
-import com.infy.rewardsapp.service.TransactionServiceImpl;
-
-import org.junit.jupiter.api.Assertions;
-
-import static org.mockito.Mockito.*;
-
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
-public class RewardsappApplicationTests {
+public class TransactionServiceTest {
 
     @Mock
     private CustomerRepository customerRepository;
@@ -43,22 +41,6 @@ public class RewardsappApplicationTests {
 
     private ModelMapper modelMapper = new ModelMapper();
 
-    @Test
-    void testAddCustomer_Success() throws RewardsAppException {
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setName("Alice");
-        customerDTO.setContact("9876543210");
-        customerDTO.setEmail("alice@example.com");
-
-        Customer customer = modelMapper.map(customerDTO, Customer.class);
-        customer.setCustomerId(1);
-        customer.setTotalRewardPoints(0);
-
-        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
-
-        Integer id = customerService.addCustomer(customerDTO);
-        Assertions.assertEquals(1, id);
-    }
     
     @Test
     void testAddTransaction_AmountUnderOrEqual50() throws RewardsAppException {

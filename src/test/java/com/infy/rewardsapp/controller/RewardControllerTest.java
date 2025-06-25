@@ -1,24 +1,24 @@
-package com.infy.rewardsapp;
+package com.infy.rewardsapp.controller;
 
-import com.infy.rewardsapp.controller.RewardController;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDate;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import com.infy.rewardsapp.exception.RewardsAppException;
 import com.infy.rewardsapp.model.CustomerDTO;
 import com.infy.rewardsapp.model.RewardSummary;
 import com.infy.rewardsapp.model.TransactionDTO;
 import com.infy.rewardsapp.service.CustomerService;
 import com.infy.rewardsapp.service.TransactionService;
-
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import java.time.LocalDate;
-
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class RewardControllerTest {
